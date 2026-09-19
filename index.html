@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>V217 - Inventaire — page articles pleine, mouvements zéro masqués</title>
+<title>V219 - Inventaire — navigation et mises à jour PWA</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#f3f4f6;color:#111827}
 header{background:#111827;color:white;padding:15px;position:sticky;top:0;z-index:2}
@@ -10948,6 +10948,7 @@ body.admin-visible .v202SecurityHeaderBtn{display:inline-flex}
     <input id="pinInput" type="password"
            autocomplete="off" maxlength="12" readonly
            aria-label="Code administrateur">
+    <div id="pinError" class="v218PinError" role="alert" aria-live="polite"></div>
     <div class="v170PinPad" aria-label="Pavé numérique">
       <button type="button" class="v170PinKey" onclick="v170PinDigit('1')">1</button>
       <button type="button" class="v170PinKey" onclick="v170PinDigit('2')">2</button>
@@ -11315,7 +11316,7 @@ function renderInventory(){
  let pumps=all.filter(p=>p.type==='pump');
  let stockHtml=stocks.map(p=>{
   const delivery=Number(db.day.delivery?.[p.id]||0), withdrawal=Number(db.day.withdrawal?.[p.id]||0);
-  return `<div class="card row v139Article ${db.day.counts[p.id]!==undefined?'done':''} ${q?'v144SearchResult':''}" data-product-id="${p.id}"><div class="v139Left"><div class="nameLine"><div class="name">${esc(p.name)}</div></div><div class="v139Info"><div class="v139Metric"><span class="v139Icon">⌂</span><span><small>Stock</small><strong>${p.prev||0}</strong></span></div><div id="updated-${p.id}" class="v139Metric v139Updated"><span class="v139Icon">↻</span><span><small>Mis à jour</small><strong>${updatedStock(p)}</strong></span></div><div id="sold-${p.id}" class="v139Metric v142Sold"><span><small>Vendu</small><strong>${soldValue(p)===null?'—':soldValue(p)}</strong></span></div></div><div id="move-summary-${p.id}" class="v174MoveBar">${moveSummaryHtml(p.id)}</div></div><div class="stockEntryLine v139Right"><span class="stockEntryLabel">Nouveau stock</span><div class="count"><div class="v141StockRow"><button type="button" class="countStepBtn countMinus v141Minus" onclick="stepCount('${p.id}',-1)">−</button><input class="countInput stockPadTrigger v141StockField" data-id="${p.id}" type="text" inputmode="none" autocomplete="off" readonly value="${db.day.counts[p.id]??''}" onclick="openStockPad('${p.id}')"><button type="button" class="countStepBtn countPlus v141Plus" onclick="stepCount('${p.id}',1)">+</button></div><button type="button" class="nextBtn" onclick="nextCount(this)">Suivant →</button></div></div></div>`;
+  return `<div class="card row v139Article ${db.day.counts[p.id]!==undefined?'done':''} ${q?'v144SearchResult':''}" data-product-id="${p.id}"><div class="v139Left"><div class="nameLine"><div><div class="name">${esc(p.name)}</div><div class="productCategoryTag">${esc(p.category||'Autres')}</div></div></div><div class="v139Info"><div class="v139Metric"><span class="v139Icon">⌂</span><span><small>Stock</small><strong>${p.prev||0}</strong></span></div><div id="updated-${p.id}" class="v139Metric v139Updated"><span class="v139Icon">↻</span><span><small>Mis à jour</small><strong>${updatedStock(p)}</strong></span></div><div id="sold-${p.id}" class="v139Metric v142Sold"><span><small>Vendu</small><strong>${soldValue(p)===null?'—':soldValue(p)}</strong></span></div></div><div id="move-summary-${p.id}" class="v174MoveBar">${moveSummaryHtml(p.id)}</div></div><div class="stockEntryLine v139Right"><span class="stockEntryLabel">Nouveau stock</span><div class="count"><div class="v141StockRow"><button type="button" class="countStepBtn countMinus v141Minus" onclick="stepCount('${p.id}',-1)">−</button><input class="countInput stockPadTrigger v141StockField" data-id="${p.id}" type="text" inputmode="none" autocomplete="off" readonly value="${db.day.counts[p.id]??''}" onclick="openStockPad('${p.id}')"><button type="button" class="countStepBtn countPlus v141Plus" onclick="stepCount('${p.id}',1)">+</button></div><button type="button" class="nextBtn" onclick="nextCount(this)">Suivant →</button></div></div></div>`;
  }).join('');
 
  let groups=[1,2,3,4].map(n=>({
@@ -11843,7 +11844,10 @@ function soldValue(p){
  const stockMisAJour = Number(p.prev||0)
    + Number(db.day.delivery?.[p.id]||0)
    - Number(db.day.withdrawal?.[p.id]||0);
- return Math.abs(stockMisAJour - Number(counted));
+ const nouveauStock=Number(counted);
+ // V219 : un stock compté supérieur au stock disponible est une incohérence, pas une vente.
+ if(nouveauStock>stockMisAJour) return null;
+ return stockMisAJour-nouveauStock;
 }
 
 function positiveSoldForCategory(category){
@@ -12355,6 +12359,7 @@ function askNumericPin(title,text){
    document.getElementById('pinTitle').textContent=title||'Code administrateur';
    document.getElementById('pinText').textContent=text||'';
    input.value='';
+   v218ClearPinError();
    modal.classList.add('open');
    modal.setAttribute('aria-hidden','false');
    // V170 : pas de focus clavier sur le champ, on utilise le pavé intégré.
@@ -12365,22 +12370,52 @@ function askNumericPin(title,text){
  });
 }
 
+function v218ClearPinError(){
+ const input=document.getElementById('pinInput');
+ const error=document.getElementById('pinError');
+ if(input)input.classList.remove('v218PinInvalid');
+ if(error){error.textContent='';error.classList.remove('show');}
+}
+
+function v218ShowPinError(message){
+ const input=document.getElementById('pinInput');
+ const error=document.getElementById('pinError');
+ if(input){input.value='';input.classList.add('v218PinInvalid');}
+ if(error){error.textContent=message||'Code incorrect';error.classList.add('show');}
+}
+
+async function v218AskAdminAccessPin(title,text){
+ let showError=false;
+ while(true){
+   const promise=askNumericPin(title,text);
+   if(showError)v218ShowPinError('Code incorrect');
+   const pwd=await promise;
+   if(pwd===null)return null;
+   const hash=await hashAdminPassword(pwd);
+   if(hash===db.adminPasswordHash)return pwd;
+   showError=true;
+ }
+}
+
 function v170PinDigit(digit){
  const input=document.getElementById('pinInput');
  if(!input)return;
  if(input.value.length>=12)return;
+ v218ClearPinError();
  input.value += String(digit).replace(/\D/g,'').slice(0,1);
 }
 
 function v170PinBack(){
  const input=document.getElementById('pinInput');
  if(!input)return;
+ v218ClearPinError();
  input.value=input.value.slice(0,-1);
 }
 
 function v170PinClear(){
  const input=document.getElementById('pinInput');
  if(!input)return;
+ v218ClearPinError();
  input.value='';
 }
 
@@ -13381,6 +13416,17 @@ function v169ClosureIssues(){
      return;
    }
 
+   if(p.type!=='pump'){
+     const current=Number(v);
+     const available=updatedStock(p);
+     if(Number.isFinite(current) && current>available){
+       issues.push({
+         line:i+1,id:p.id,kind:'warning',name:p.name,
+         text:`stock compté ${current} supérieur au stock disponible ${available} (+${current-available}) — vérifiez ancien stock, livraison/retrait ou comptage`
+       });
+     }
+   }
+
    if(p.type==='pump'){
      const current=Number(v);
      const previous=Number(p.prev||0);
@@ -14215,16 +14261,11 @@ async function openProtectedAdminV121(){
     return;
   }
 
-  const pwd=await askNumericPin(
+  const pwd=await v218AskAdminAccessPin(
     'Mot de passe administrateur',
     'Entrez votre code pour accéder à l’administration.'
   );
   if(pwd===null)return;
-  const hash=await hashAdminPassword(pwd);
-  if(hash!==db.adminPasswordHash){
-    alert('Mot de passe incorrect.');
-    return;
-  }
   adminUnlocked=true;
   show('settings');
 }
@@ -14359,7 +14400,6 @@ function v135NormalizePumpSold(){
       <button type="button" class="stockPadCancel" onclick="stockPadValidateClose()">Valider</button>
       <button type="button" class="stockPadNext" onclick="stockPadValidateNext()">Valider et suivant →</button>
     </div>
-    <div class="stockPadHint">Le clavier Android ne s'ouvre pas pendant cette saisie.</div>
   </div>
 </div>
 
@@ -14418,17 +14458,91 @@ function v135NormalizePumpSold(){
 .pumpInput.v208Done{border-color:#91c8b6!important;background:#f7fffb!important}
 .v205StatCard strong{font-size:20px!important;letter-spacing:-.2px!important}
 @media (max-width:760px){.v205StatCard strong{font-size:16px!important}}
+
+/* V218 — erreur de code administrateur sans fermer la fenêtre */
+#pinInput.v218PinInvalid{
+  border-color:#c93f3f !important;
+  box-shadow:0 0 0 3px rgba(201,63,63,.12) !important;
+}
+.v218PinError{
+  display:none;
+  margin-top:7px;
+  color:#b52f2f;
+  font-size:13px;
+  font-weight:750;
+  text-align:center;
+}
+.v218PinError.show{display:block;}
 </style>
 <script>
 document.addEventListener('input',function(e){const el=e.target;if(!el||!el.classList||!el.classList.contains('pumpInput'))return;const filled=String(el.value||'').trim()!=='';el.classList.toggle('v208Missing',!filled);el.classList.toggle('v208Done',filled);});
 </script>
 
+<style id="v219-improvements">
+/* V219 — améliorations d'utilisation validées */
+.row.done .name::after{content:none!important} /* retirer le petit ✓ */
+#inventory .v188TopStack{position:sticky;top:74px;z-index:850;background:#f3f5f8;padding-top:6px;padding-bottom:6px}
+.v219CategoryNav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px;-webkit-overflow-scrolling:touch}
+.v219CategoryNav::-webkit-scrollbar{display:none}
+.v219CategoryBtn{flex:0 0 auto;min-height:34px;padding:6px 11px;border-radius:999px;border:1px solid #cbd8d5;background:#fff;color:#315d63;font-size:12px;font-weight:800;white-space:nowrap}
+#products .productCategoryTag{display:block!important;margin-top:3px!important;font-size:10px!important;line-height:1.15!important;font-weight:650!important;color:#8a8a86!important;background:none!important;border:0!important;padding:0!important}
+#products .v142Sold>span{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:1px!important}
+#products .v142Sold small{display:block!important}
+#products .v142Sold strong{display:block!important}
+#products .v219StockWarning{border-color:#e1a13c!important;border-left-color:#c87900!important;background:#fffaf0!important}
+.v219WarningText{grid-column:1/-1;margin-top:7px;padding:7px 9px;border-radius:8px;background:#fff0d2;color:#8a5100;font-size:11px;font-weight:750;line-height:1.3}
+.v219UpdateBanner{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:2500;width:min(92%,560px);padding:11px 12px;border-radius:14px;background:#173f49;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.v219UpdateBanner[hidden]{display:none!important}.v219UpdateBanner b{font-size:13px}.v219UpdateBanner button{background:#fff;color:#173f49;padding:8px 12px;border-radius:9px;font-size:12px;font-weight:850;white-space:nowrap}
+.v219Version{font-size:10px;opacity:.72;margin-left:6px;font-weight:700}
+@media(max-width:620px){#inventory .v188TopStack{top:68px}}
+</style>
+<script id="v219-improvements-script">
+const INVENTAIRE_VERSION='V219';
+function v219RenderCategoryNav(){
+ const stack=document.querySelector('#inventory .v188TopStack'); if(!stack)return;
+ let nav=document.getElementById('v219CategoryNav');
+ if(!nav){nav=document.createElement('div');nav.id='v219CategoryNav';nav.className='v219CategoryNav no-print';stack.appendChild(nav)}
+ const cats=getCategories().filter(c=>active().some(p=>p.type!=='pump'&&(p.category||'Autres')===c));
+ nav.innerHTML=cats.map(c=>`<button type="button" class="v219CategoryBtn" onclick="jumpToCategory(${JSON.stringify(c).replace(/"/g,'&quot;')})">${esc(c)}</button>`).join('');
+}
+function v219RefreshStockWarnings(){
+ document.querySelectorAll('#products .v139Article').forEach(row=>{
+   const id=row.dataset.productId,p=db.products.find(x=>String(x.id)===String(id)); if(!p||p.type==='pump')return;
+   row.querySelector('.v219WarningText')?.remove(); row.classList.remove('v219StockWarning');
+   const counted=db.day?.counts?.[p.id]; if(counted===undefined||counted==='')return;
+   const available=updatedStock(p),current=Number(counted);
+   if(Number.isFinite(current)&&current>available){
+     const diff=current-available; row.classList.add('v219StockWarning');
+     const msg=document.createElement('div');msg.className='v219WarningText';
+     msg.textContent=`⚠ Stock incohérent : ${diff} unité${diff>1?'s':''} de plus que le stock disponible. Vérifiez l’ancien stock, les livraisons/retraits ou le comptage.`;
+     row.appendChild(msg);
+   }
+ });
+}
+const v219RenderInventoryBase=renderInventory;
+renderInventory=function(){const r=v219RenderInventoryBase.apply(this,arguments);requestAnimationFrame(()=>{v219RenderCategoryNav();v219RefreshStockWarnings()});return r};
+const v219CountBase=count;
+count=function(id,v){const r=v219CountBase.apply(this,arguments);requestAnimationFrame(v219RefreshStockWarnings);return r};
+window.addEventListener('load',()=>{v219RenderCategoryNav();v219RefreshStockWarnings();const t=document.querySelector('.v188Title');if(t&&!document.querySelector('.v219Version'))t.insertAdjacentHTML('beforeend','<span class="v219Version">V219</span>')});
+
+let v219WaitingWorker=null;
+function v219ShowUpdate(worker){v219WaitingWorker=worker;const b=document.getElementById('v219UpdateBanner');if(b)b.hidden=false}
+function v219ApplyUpdate(){if(v219WaitingWorker)v219WaitingWorker.postMessage({type:'SKIP_WAITING'})}
+</script>
+<div id="v219UpdateBanner" class="v219UpdateBanner no-print" hidden><b>Nouvelle version d’Inventaire disponible</b><button type="button" onclick="v219ApplyUpdate()">Mettre à jour</button></div>
 <script>
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker.register('./service-worker.js').catch(function (err) {
-      console.warn('Service Worker non enregistré:', err);
-    });
+  window.addEventListener('load', async function () {
+    try{
+      const reg=await navigator.serviceWorker.register('./service-worker.js');
+      if(reg.waiting && navigator.serviceWorker.controller)v219ShowUpdate(reg.waiting);
+      reg.addEventListener('updatefound',()=>{
+        const worker=reg.installing;if(!worker)return;
+        worker.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)v219ShowUpdate(worker)});
+      });
+      navigator.serviceWorker.addEventListener('controllerchange',()=>window.location.reload());
+      reg.update().catch(()=>{});
+    }catch(err){console.warn('Service Worker non enregistré:',err)}
   });
 }
 </script>
