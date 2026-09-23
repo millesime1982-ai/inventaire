@@ -850,6 +850,61 @@ overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
   .inventoryPage.v214Page1 .v217StockTable th,.inventoryPage.v214Page1 .v217StockTable td{padding:0.6mm 0.8mm;vertical-align:middle}
   .truckPrintBox{margin-top:4mm}
 }
+
+/* V234 — Samsung 8,7" / tablette portrait.
+   Ne pas dépendre de min-width:621px : selon le zoom et le viewport Chrome,
+   la tablette peut être vue comme un écran CSS plus étroit.
+   Tous les pavés importants sont centrés et légèrement remontés. */
+@media (min-height:600px){
+  .pinModal.open,
+  .movementHistoryModal.open,
+  .movePad115e.open,
+  .v130MoveModal.open,
+  .moveModal114b.open,
+  .v115bSaleModal.open,
+  .quickSaleModal.open,
+  .customSaleModal.open,
+  .actionConfirmModal.open{
+    align-items:center !important;
+    justify-content:center !important;
+    padding:16px !important;
+  }
+
+  .pinDialog,
+  .movementHistoryDialog,
+  .movePadPanel115e,
+  .v130MoveDialog,
+  .moveDialog114b,
+  .v115bSaleDialog,
+  .quickSaleDialog,
+  .customSaleDialog,
+  .actionConfirmPanel{
+    border-radius:var(--radius-xl) !important;
+    max-height:calc(100vh - 48px) !important;
+    transform:translateY(-8%) !important;
+  }
+
+  body>.calculatorModal.open{
+    align-items:center !important;
+    justify-content:center !important;
+    padding:16px !important;
+  }
+  body>.calculatorModal.open .calculatorPanel{
+    border-radius:var(--radius-xl) !important;
+    max-height:calc(100vh - 48px) !important;
+    transform:translateY(-8%) !important;
+  }
+
+  .stockAdjustOverlay.open{
+    align-items:center !important;
+    justify-content:center !important;
+    padding:16px !important;
+  }
+  .stockAdjustOverlay.open .stockAdjustPanel{
+    transform:translateY(-8%) !important;
+  }
+}
+
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0f5c5e">
@@ -4728,7 +4783,7 @@ document.addEventListener('input',function(e){const el=e.target;if(!el||!el.clas
 
 
 <script id="v219-improvements-script">
-const INVENTAIRE_VERSION='V233';
+const INVENTAIRE_VERSION='V234';
 function v219RenderCategoryNav(){
  const host=document.getElementById('postCountBar'); if(!host)return;
  host.style.display='flex';
