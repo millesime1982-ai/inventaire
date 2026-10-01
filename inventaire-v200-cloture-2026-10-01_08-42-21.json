@@ -1,0 +1,1437 @@
+{
+  "schema": 200,
+  "appVersion": "V200 Essai — calculatrice simplifiée",
+  "categories": [
+    "Pellets",
+    "Gaz",
+    "Charbon de bois et bûches",
+    "Charbon de chauffage",
+    "Additifs",
+    "Autres"
+  ],
+  "products": [
+    {
+      "id": "p001",
+      "name": "LaveGlace",
+      "prev": 1,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 0
+    },
+    {
+      "id": "p002",
+      "name": "Saxoil",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 1
+    },
+    {
+      "id": "p003",
+      "name": "Tosaine",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 2
+    },
+    {
+      "id": "p004",
+      "name": "Tosaine +",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 3
+    },
+    {
+      "id": "p005",
+      "name": "Huile 2t",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 4
+    },
+    {
+      "id": "p006",
+      "name": "Huile 0w30",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 5
+    },
+    {
+      "id": "p007",
+      "name": "Huile 0w20",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 6
+    },
+    {
+      "id": "p008",
+      "name": "Huile 5w30",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 7
+    },
+    {
+      "id": "p009",
+      "name": "Huile 10w40",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 8
+    },
+    {
+      "id": "p010",
+      "name": "Huile 15w40",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 9
+    },
+    {
+      "id": "p011",
+      "name": "Diecyl",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 10
+    },
+    {
+      "id": "p012",
+      "name": "AllFeu Solide",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 11
+    },
+    {
+      "id": "p013",
+      "name": "Bidon 10L.",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 12
+    },
+    {
+      "id": "p014",
+      "name": "Bidon 25L.",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 13
+    },
+    {
+      "id": "p015",
+      "name": "Union 25k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 14
+    },
+    {
+      "id": "p016",
+      "name": "Union 10k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Additifs",
+      "active": true,
+      "position": 15
+    },
+    {
+      "id": "p017",
+      "name": "ChBois 4k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de bois et bûches",
+      "active": true,
+      "position": 16
+    },
+    {
+      "id": "p018",
+      "name": "ChBois 8k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de bois et bûches",
+      "active": true,
+      "position": 17
+    },
+    {
+      "id": "p019",
+      "name": "ChBois 10k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de bois et bûches",
+      "active": true,
+      "position": 18
+    },
+    {
+      "id": "p020",
+      "name": "Futurex 30/90",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 19
+    },
+    {
+      "id": "p021",
+      "name": "Futurex 20/30",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 20
+    },
+    {
+      "id": "p022",
+      "name": "Futurex 12/22",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 21
+    },
+    {
+      "id": "p023",
+      "name": "20/30 Spé",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 22
+    },
+    {
+      "id": "p024",
+      "name": "20/30 Extra",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 23
+    },
+    {
+      "id": "p025",
+      "name": "8/14 Gen",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 24
+    },
+    {
+      "id": "p026",
+      "name": "20/30 lbb",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 25
+    },
+    {
+      "id": "p027",
+      "name": "14/22 lbb",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 26
+    },
+    {
+      "id": "p028",
+      "name": "12/22 Gen",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 27
+    },
+    {
+      "id": "p029",
+      "name": "12/22 Extra",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 28
+    },
+    {
+      "id": "p030",
+      "name": "12/22 Eco",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 29
+    },
+    {
+      "id": "p031",
+      "name": "12/22 Spé",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 30
+    },
+    {
+      "id": "p032",
+      "name": "Buche Claire",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de bois et bûches",
+      "active": true,
+      "position": 31
+    },
+    {
+      "id": "p033",
+      "name": "EcoBriquette",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de bois et bûches",
+      "active": true,
+      "position": 32
+    },
+    {
+      "id": "p034",
+      "name": "Buche Trou",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de bois et bûches",
+      "active": true,
+      "position": 33
+    },
+    {
+      "id": "p035",
+      "name": "Buche Foncée",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de bois et bûches",
+      "active": true,
+      "position": 34
+    },
+    {
+      "id": "p036",
+      "name": "Allemand",
+      "prev": 2,
+      "type": "stock",
+      "category": "Pellets",
+      "active": true,
+      "position": 35
+    },
+    {
+      "id": "p037",
+      "name": "Belge",
+      "prev": 2,
+      "type": "stock",
+      "category": "Pellets",
+      "active": true,
+      "position": 36
+    },
+    {
+      "id": "p038",
+      "name": "Perfect",
+      "prev": 0,
+      "type": "stock",
+      "category": "Pellets",
+      "active": true,
+      "position": 37
+    },
+    {
+      "id": "p039",
+      "name": "Swiss (63)",
+      "prev": 2,
+      "type": "stock",
+      "category": "Pellets",
+      "active": true,
+      "position": 38
+    },
+    {
+      "id": "p040",
+      "name": "Hollandais",
+      "prev": 2,
+      "type": "stock",
+      "category": "Pellets",
+      "active": true,
+      "position": 39
+    },
+    {
+      "id": "p041",
+      "name": "Badger",
+      "prev": 2,
+      "type": "stock",
+      "category": "Pellets",
+      "active": true,
+      "position": 40
+    },
+    {
+      "id": "p042",
+      "name": "12/22 Ext 10k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 41
+    },
+    {
+      "id": "p043",
+      "name": "14/22 lbb 10k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 42
+    },
+    {
+      "id": "p044",
+      "name": "12/22 Spé 10k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 43
+    },
+    {
+      "id": "p045",
+      "name": "20/30 Spé 10k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Charbon de chauffage",
+      "active": true,
+      "position": 44
+    },
+    {
+      "id": "p046",
+      "name": "Pol 10k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 45
+    },
+    {
+      "id": "p047",
+      "name": "Din 10k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 46
+    },
+    {
+      "id": "p048",
+      "name": "12k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 47
+    },
+    {
+      "id": "p049",
+      "name": "18k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 48
+    },
+    {
+      "id": "p050",
+      "name": "46k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 49
+    },
+    {
+      "id": "p051",
+      "name": "PLT 10k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 50
+    },
+    {
+      "id": "p052",
+      "name": "PLT 18k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 51
+    },
+    {
+      "id": "p053",
+      "name": "EasyBlue 6k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 52
+    },
+    {
+      "id": "p054",
+      "name": "EasyBlue 9k",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 53
+    },
+    {
+      "id": "p055",
+      "name": "Calypso",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 54
+    },
+    {
+      "id": "p056",
+      "name": "CubiShell",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 55
+    },
+    {
+      "id": "p057",
+      "name": "MiniGaz",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 56
+    },
+    {
+      "id": "p058",
+      "name": "Twiny",
+      "prev": 2,
+      "type": "stock",
+      "category": "Gaz",
+      "active": true,
+      "position": 57
+    },
+    {
+      "id": "p059",
+      "name": "P1 Essence 95",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 58
+    },
+    {
+      "id": "p060",
+      "name": "P1 Essence 98",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 59
+    },
+    {
+      "id": "p061",
+      "name": "P1 Diesel",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 60
+    },
+    {
+      "id": "p062",
+      "name": "P2 Essence 95",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 61
+    },
+    {
+      "id": "p063",
+      "name": "P2 Essence 98",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 62
+    },
+    {
+      "id": "p064",
+      "name": "P2 Diesel",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 63
+    },
+    {
+      "id": "p065",
+      "name": "P3 Essence 95",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 64
+    },
+    {
+      "id": "p066",
+      "name": "P3 Essence 98",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 65
+    },
+    {
+      "id": "p067",
+      "name": "P3 Diesel",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 66
+    },
+    {
+      "id": "p068",
+      "name": "P4 Essence 95",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 67
+    },
+    {
+      "id": "p069",
+      "name": "P4 Essence 98",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 68
+    },
+    {
+      "id": "p070",
+      "name": "P4 Diesel",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 69
+    },
+    {
+      "id": "p071",
+      "name": "P Camion",
+      "prev": 2,
+      "type": "pump",
+      "category": "Autres",
+      "active": true,
+      "position": 70
+    }
+  ],
+  "day": {
+    "date": "2026-10-01",
+    "counts": {},
+    "delivery": {},
+    "withdrawal": {},
+    "movementHistory": {
+      "delivery": {},
+      "withdrawal": {}
+    },
+    "serviceFinished": false,
+    "serviceFinishedAt": null,
+    "postSales": {},
+    "postMovement": {
+      "delivery": {},
+      "withdrawal": {}
+    },
+    "finishMovement": {
+      "delivery": {},
+      "withdrawal": {}
+    }
+  },
+  "archives": [
+    {
+      "date": "2026-10-01",
+      "createdAt": "2026-10-01T06:42:21.709Z",
+      "reason": "closure",
+      "data": {
+        "date": "2026-10-01",
+        "counts": {
+          "p001": 2,
+          "p002": 2,
+          "p003": 2,
+          "p004": 2,
+          "p005": 2,
+          "p006": 2,
+          "p007": 2,
+          "p008": 2,
+          "p009": 2,
+          "p010": 2,
+          "p011": 2,
+          "p012": 2,
+          "p013": 2,
+          "p014": 2,
+          "p015": 2,
+          "p016": 2,
+          "p017": 2,
+          "p018": 2,
+          "p019": 2,
+          "p020": 2,
+          "p021": 2,
+          "p022": 2,
+          "p023": 2,
+          "p024": 2,
+          "p025": 2,
+          "p026": 2,
+          "p027": 2,
+          "p028": 2,
+          "p029": 2,
+          "p030": 2,
+          "p031": 2,
+          "p032": 2,
+          "p033": 2,
+          "p034": 2,
+          "p035": 2,
+          "p036": 2,
+          "p037": 2,
+          "p038": 2,
+          "p039": 2,
+          "p040": 2,
+          "p041": 2,
+          "p043": 2,
+          "p044": 2,
+          "p045": 2,
+          "p046": 2,
+          "p047": 2,
+          "p042": 2,
+          "p048": 2,
+          "p049": 2,
+          "p050": 2,
+          "p051": 2,
+          "p052": 2,
+          "p053": 2,
+          "p054": 2,
+          "p055": 2,
+          "p056": 2,
+          "p057": 2,
+          "p058": 2,
+          "p061": 2,
+          "p060": 2,
+          "p059": 2,
+          "p062": 2,
+          "p063": 2,
+          "p064": 2,
+          "p067": 2,
+          "p066": 2,
+          "p065": 2,
+          "p068": 2,
+          "p069": 2,
+          "p070": 2,
+          "p071": 2
+        },
+        "delivery": {},
+        "withdrawal": {},
+        "movementHistory": {
+          "delivery": {},
+          "withdrawal": {}
+        },
+        "serviceFinished": true,
+        "serviceFinishedAt": "2026-10-01T06:41:21.968Z",
+        "postSales": {
+          "p001": [
+            {
+              "id": "s1790836890061285r",
+              "value": 1,
+              "ts": 1790836890061
+            }
+          ],
+          "p038": [
+            {
+              "id": "s179083691828973jy",
+              "value": 1,
+              "ts": 1790836918289
+            },
+            {
+              "id": "s17908369252606e9o",
+              "value": 1,
+              "ts": 1790836925260
+            }
+          ]
+        },
+        "postMovement": {
+          "delivery": {},
+          "withdrawal": {}
+        },
+        "finishMovement": {
+          "delivery": {},
+          "withdrawal": {}
+        }
+      },
+      "products": [
+        {
+          "id": "p001",
+          "name": "LaveGlace",
+          "prev": 15,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 0
+        },
+        {
+          "id": "p002",
+          "name": "Saxoil",
+          "prev": 45,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 1
+        },
+        {
+          "id": "p003",
+          "name": "Tosaine",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 2
+        },
+        {
+          "id": "p004",
+          "name": "Tosaine +",
+          "prev": 47,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 3
+        },
+        {
+          "id": "p005",
+          "name": "Huile 2t",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 4
+        },
+        {
+          "id": "p006",
+          "name": "Huile 0w30",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 5
+        },
+        {
+          "id": "p007",
+          "name": "Huile 0w20",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 6
+        },
+        {
+          "id": "p008",
+          "name": "Huile 5w30",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 7
+        },
+        {
+          "id": "p009",
+          "name": "Huile 10w40",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 8
+        },
+        {
+          "id": "p010",
+          "name": "Huile 15w40",
+          "prev": 17,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 9
+        },
+        {
+          "id": "p011",
+          "name": "Diecyl",
+          "prev": 19,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 10
+        },
+        {
+          "id": "p012",
+          "name": "AllFeu Solide",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 11
+        },
+        {
+          "id": "p013",
+          "name": "Bidon 10L.",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 12
+        },
+        {
+          "id": "p014",
+          "name": "Bidon 25L.",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 13
+        },
+        {
+          "id": "p015",
+          "name": "Union 25k",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 14
+        },
+        {
+          "id": "p016",
+          "name": "Union 10k",
+          "prev": 4,
+          "type": "stock",
+          "category": "Additifs",
+          "active": true,
+          "position": 15
+        },
+        {
+          "id": "p017",
+          "name": "ChBois 4k",
+          "prev": 112,
+          "type": "stock",
+          "category": "Charbon de bois et bûches",
+          "active": true,
+          "position": 16
+        },
+        {
+          "id": "p018",
+          "name": "ChBois 8k",
+          "prev": 35,
+          "type": "stock",
+          "category": "Charbon de bois et bûches",
+          "active": true,
+          "position": 17
+        },
+        {
+          "id": "p019",
+          "name": "ChBois 10k",
+          "prev": 19,
+          "type": "stock",
+          "category": "Charbon de bois et bûches",
+          "active": true,
+          "position": 18
+        },
+        {
+          "id": "p020",
+          "name": "Futurex 30/90",
+          "prev": 4,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 19
+        },
+        {
+          "id": "p021",
+          "name": "Futurex 20/30",
+          "prev": 4,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 20
+        },
+        {
+          "id": "p022",
+          "name": "Futurex 12/22",
+          "prev": 4,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 21
+        },
+        {
+          "id": "p023",
+          "name": "20/30 Spé",
+          "prev": 4,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 22
+        },
+        {
+          "id": "p024",
+          "name": "20/30 Extra",
+          "prev": 4,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 23
+        },
+        {
+          "id": "p025",
+          "name": "8/14 Gen",
+          "prev": 2,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 24
+        },
+        {
+          "id": "p026",
+          "name": "20/30 lbb",
+          "prev": 58,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 25
+        },
+        {
+          "id": "p027",
+          "name": "14/22 lbb",
+          "prev": 39,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 26
+        },
+        {
+          "id": "p028",
+          "name": "12/22 Gen",
+          "prev": 4,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 27
+        },
+        {
+          "id": "p029",
+          "name": "12/22 Extra",
+          "prev": 4,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 28
+        },
+        {
+          "id": "p030",
+          "name": "12/22 Eco",
+          "prev": 4,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 29
+        },
+        {
+          "id": "p031",
+          "name": "12/22 Spé",
+          "prev": 43,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 30
+        },
+        {
+          "id": "p032",
+          "name": "Buche Claire",
+          "prev": 105,
+          "type": "stock",
+          "category": "Charbon de bois et bûches",
+          "active": true,
+          "position": 31
+        },
+        {
+          "id": "p033",
+          "name": "EcoBriquette",
+          "prev": 73,
+          "type": "stock",
+          "category": "Charbon de bois et bûches",
+          "active": true,
+          "position": 32
+        },
+        {
+          "id": "p034",
+          "name": "Buche Trou",
+          "prev": 42,
+          "type": "stock",
+          "category": "Charbon de bois et bûches",
+          "active": true,
+          "position": 33
+        },
+        {
+          "id": "p035",
+          "name": "Buche Foncée",
+          "prev": 122,
+          "type": "stock",
+          "category": "Charbon de bois et bûches",
+          "active": true,
+          "position": 34
+        },
+        {
+          "id": "p036",
+          "name": "Allemand",
+          "prev": 884,
+          "type": "stock",
+          "category": "Pellets",
+          "active": true,
+          "position": 35
+        },
+        {
+          "id": "p037",
+          "name": "Belge",
+          "prev": 1109,
+          "type": "stock",
+          "category": "Pellets",
+          "active": true,
+          "position": 36
+        },
+        {
+          "id": "p038",
+          "name": "Perfect",
+          "prev": 891,
+          "type": "stock",
+          "category": "Pellets",
+          "active": true,
+          "position": 37
+        },
+        {
+          "id": "p039",
+          "name": "Swiss (63)",
+          "prev": 866,
+          "type": "stock",
+          "category": "Pellets",
+          "active": true,
+          "position": 38
+        },
+        {
+          "id": "p040",
+          "name": "Hollandais",
+          "prev": 192,
+          "type": "stock",
+          "category": "Pellets",
+          "active": true,
+          "position": 39
+        },
+        {
+          "id": "p041",
+          "name": "Badger",
+          "prev": 499,
+          "type": "stock",
+          "category": "Pellets",
+          "active": true,
+          "position": 40
+        },
+        {
+          "id": "p042",
+          "name": "12/22 Ext 10k",
+          "prev": 26,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 41
+        },
+        {
+          "id": "p043",
+          "name": "14/22 lbb 10k",
+          "prev": 122,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 42
+        },
+        {
+          "id": "p044",
+          "name": "12/22 Spé 10k",
+          "prev": 118,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 43
+        },
+        {
+          "id": "p045",
+          "name": "20/30 Spé 10k",
+          "prev": 65,
+          "type": "stock",
+          "category": "Charbon de chauffage",
+          "active": true,
+          "position": 44
+        },
+        {
+          "id": "p046",
+          "name": "Pol 10k",
+          "prev": 34,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 45
+        },
+        {
+          "id": "p047",
+          "name": "Din 10k",
+          "prev": 6,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 46
+        },
+        {
+          "id": "p048",
+          "name": "12k",
+          "prev": 21,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 47
+        },
+        {
+          "id": "p049",
+          "name": "18k",
+          "prev": 18,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 48
+        },
+        {
+          "id": "p050",
+          "name": "46k",
+          "prev": 8,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 49
+        },
+        {
+          "id": "p051",
+          "name": "PLT 10k",
+          "prev": 20,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 50
+        },
+        {
+          "id": "p052",
+          "name": "PLT 18k",
+          "prev": 21,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 51
+        },
+        {
+          "id": "p053",
+          "name": "EasyBlue 6k",
+          "prev": 4,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 52
+        },
+        {
+          "id": "p054",
+          "name": "EasyBlue 9k",
+          "prev": 10,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 53
+        },
+        {
+          "id": "p055",
+          "name": "Calypso",
+          "prev": 9,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 54
+        },
+        {
+          "id": "p056",
+          "name": "CubiShell",
+          "prev": 5,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 55
+        },
+        {
+          "id": "p057",
+          "name": "MiniGaz",
+          "prev": 8,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 56
+        },
+        {
+          "id": "p058",
+          "name": "Twiny",
+          "prev": 9,
+          "type": "stock",
+          "category": "Gaz",
+          "active": true,
+          "position": 57
+        },
+        {
+          "id": "p059",
+          "name": "P1 Essence 95",
+          "prev": 3557107,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 58
+        },
+        {
+          "id": "p060",
+          "name": "P1 Essence 98",
+          "prev": 440684,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 59
+        },
+        {
+          "id": "p061",
+          "name": "P1 Diesel",
+          "prev": 9286432,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 60
+        },
+        {
+          "id": "p062",
+          "name": "P2 Essence 95",
+          "prev": 5868346,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 61
+        },
+        {
+          "id": "p063",
+          "name": "P2 Essence 98",
+          "prev": 1117387,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 62
+        },
+        {
+          "id": "p064",
+          "name": "P2 Diesel",
+          "prev": 4669344,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 63
+        },
+        {
+          "id": "p065",
+          "name": "P3 Essence 95",
+          "prev": 5922224,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 64
+        },
+        {
+          "id": "p066",
+          "name": "P3 Essence 98",
+          "prev": 1164986,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 65
+        },
+        {
+          "id": "p067",
+          "name": "P3 Diesel",
+          "prev": 7065351,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 66
+        },
+        {
+          "id": "p068",
+          "name": "P4 Essence 95",
+          "prev": 5297818,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 67
+        },
+        {
+          "id": "p069",
+          "name": "P4 Essence 98",
+          "prev": 1186128,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 68
+        },
+        {
+          "id": "p070",
+          "name": "P4 Diesel",
+          "prev": 3559814,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 69
+        },
+        {
+          "id": "p071",
+          "name": "P Camion",
+          "prev": 2937131,
+          "type": "pump",
+          "category": "Autres",
+          "active": true,
+          "position": 70
+        }
+      ]
+    }
+  ],
+  "exportVersion": "V200 Essai — calculatrice simplifiée",
+  "exportedAt": "2026-10-01T06:42:21.710Z"
+}
