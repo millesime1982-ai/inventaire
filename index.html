@@ -386,6 +386,9 @@ function handleCalendarChange(){if(prepareNewCalendarDay())renderAll();else warn
 function renderAll(){prepareNewCalendarDay();$('#headerDate').textContent=formatDate(db.day.date);renderCategories();renderInventory();updateFinishButton()}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')handleCalendarChange()});window.addEventListener('focus',handleCalendarChange);
 renderAll();if(!startupWarning)save();setTimeout(()=>{if(startupWarning)genericDialog({title:'Récupération V200',text:startupWarning,cancel:false,okText:'Continuer'});else warnStaleDayIfNeeded()},0);
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js');
+}
 </script>
 </body>
 </html>
