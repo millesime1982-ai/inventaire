@@ -1,5 +1,5 @@
 const CACHE = 'inventaire-v219-pwa-4';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './'./icon-inventaire-192.png', './'./icon-inventaire-192.png'];
+const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-inventaire-192.png', './icon-inventaire-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
   self.skipWaiting();
