@@ -1,6 +1,7 @@
 {
   "name": "Inventaire",
   "short_name": "Inventaire",
+  "id": "/inventaire/inventaire-v2",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
