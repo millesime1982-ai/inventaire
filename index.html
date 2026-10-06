@@ -80,13 +80,13 @@ main{padding:10px 12px 40px;max-width:760px;margin:0 auto} .panel{display:none} 
 .live-count-label{font-size:9px;line-height:1.2;font-weight:800;color:#17633e;white-space:nowrap}
 .live-count-label strong{display:block;font-size:19px;line-height:1.1}.pre-count-current{margin:auto}
 
-/* Recherche tablette : pleine largeur sous le titre */
-.header{grid-template-columns:minmax(0,1fr) auto!important;grid-template-areas:"title admin" "search search"!important;row-gap:8px!important}
-.header-title{grid-area:title}
+/* En-tête tablette : titre + roue, puis recherche pleine largeur */
+.header{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:8px 10px!important}
+.header-title{order:1!important;flex:1 1 auto!important;min-width:0!important}
+.icon-btn#adminButton{order:2!important;flex:0 0 auto!important;margin-left:auto!important}
 .header-category{display:none!important}
-.search-wrap{grid-area:search;width:100%!important;max-width:none!important;margin:0!important}
-.icon-btn#adminButton{grid-area:admin;justify-self:end}
-.search-wrap input{width:100%!important}
+.search-wrap{order:3!important;flex:0 0 100%!important;width:100%!important;max-width:none!important;margin:0!important;box-sizing:border-box!important}
+.search-wrap input{width:100%!important;min-width:0!important;box-sizing:border-box!important}
 
 </style>
 </head>
