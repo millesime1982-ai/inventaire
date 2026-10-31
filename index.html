@@ -53,11 +53,11 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
 .name-cell { display: flex; align-items: center; gap: 6px; text-align: left; padding-left: 12px; overflow: hidden; }
 .name-cell strong { font-size: 17px; font-weight: 500; color: #1f2a30; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
 .warn { width: 16px; color: #a65d00; font-weight: 900; text-align: center; }
-.before-cell { line-height: 1.1; text-align: left; padding-right: 30px; }
+.before-cell { cursor: pointer; line-height: 1.1; text-align: left; padding-right: 30px; }
 .before-chip { position: relative; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: min(130px, 100%); min-height: 40px; padding: 3px 0 3px 28px; }
 .movement-btn { position: absolute; top: 50%; left: -7px; transform: translateY(-50%); display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .movement-btn::before { content: '±'; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #e3edf0; color: #5b7d87; font-size: 14px; font-weight: 700; line-height: 1; transition: transform .1s, background .1s; }
-.movement-btn:active::before { transform: scale(.85); background: #bcd5db; }
+.movement-btn:active::before, .before-cell:active .movement-btn::before { transform: scale(.85); background: #bcd5db; }
 .before-base { font-size: 18px; font-weight: 800; }
 .before-calc { display: flex; flex-direction: column; align-items: center; gap: 1px; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .calc-total { white-space: nowrap; }
@@ -996,7 +996,7 @@ function stockRowHtml(p) {
   return [
     `<div class="sheet-row ${p.id === activeProductId ? 'active' : ''} ${st.surplus ? 'warning' : ''}" data-product-row="${esc(p.id)}">`,
     `<div class="cell name-cell"><span class="warn">${st.surplus ? '⚠' : ''}</span><strong>${esc(p.name)}</strong></div>`,
-    `<div class="cell before-cell">${beforeHtml(p)}</div>`,
+    `<div class="cell before-cell" data-movement="${esc(p.id)}">${beforeHtml(p)}</div>`,
     `<div class="cell">${stockCell}</div>`,
     `<div class="cell sold-cell ${st.surplus ? 'surplus' : ''}">${soldHtml(p)}</div>`,
     '</div>'
