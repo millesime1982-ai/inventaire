@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5c5e">
 <link rel="manifest" href="./manifest.webmanifest">
-<title>Inventaire V200 — ESSAI pompes horizontales</title>
+<title>Inventaire V200</title>
 <style>
 :root { --petrol: #35515a; --petrol-2: #294852; --teal: #0f5c5e; --line: #d8dee2; --soft: #f4f6f7; --blue: #eef7ff; --text: #1f2a30; --muted: #6c7b82; --danger: #b42318; --ok: #18794e; --amber: #9a6700; }
-* { box-sizing: border-box; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+button:focus:not(:focus-visible), [role="button"]:focus:not(:focus-visible) { outline: none; }
 html,
 body { margin: 0; background: #fff; color: var(--text); font-family: Arial,Helvetica,sans-serif; font-size: 14px; }
 button,
@@ -39,7 +40,7 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
 .category-chips button.active { background: #0f5c5e; color: #fff; border-color: #0f5c5e; }
 .sheet { border: 1px solid #cfd7da; border-radius: 8px; overflow: hidden; }
 .sheet-head,
-.sheet-row { display: grid; grid-template-columns: minmax(0,1fr) 184px 132px 96px; align-items: center; }
+.sheet-row { display: grid; grid-template-columns: minmax(0,1fr) 192px 140px 102px; align-items: center; }
 .sheet-head { height: 36px; background: #edf0f2; color: #52656d; font-size: 11px; font-weight: 800; letter-spacing: .04em; }
 .sheet-head span { text-align: center; }
 .sheet-head span:first-child { text-align: left; padding-left: 14px; }
@@ -50,23 +51,24 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
 .sheet-row.warning { background: #fffefa; box-shadow: inset 3px 0 #dfa03a; }
 .cell { min-width: 0; padding: 5px 8px; text-align: center; }
 .name-cell { display: flex; align-items: center; gap: 6px; text-align: left; padding-left: 12px; overflow: hidden; }
-.name-cell strong { font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+.name-cell strong { font-size: 17px; font-weight: 500; color: #1f2a30; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
 .warn { width: 16px; color: #a65d00; font-weight: 900; text-align: center; }
-.before-cell { cursor: pointer; line-height: 1.1; }
-.before-chip { position: relative; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: min(116px, 100%); min-height: 40px; padding: 3px 12px; border: 1px solid #c9d6db; border-radius: 8px; background: #f8fbfc; transition: transform .08s, background .08s; }
-.before-chip::after { content: '±'; position: absolute; top: 50%; right: 4px; transform: translateY(-50%); color: #8aa7af; font-size: 11px; font-weight: 700; }
-.before-cell:active .before-chip { transform: scale(.95); background: #d6e8ec; }
-.before-base { font-size: 15px; font-weight: 800; }
+.before-cell { line-height: 1.1; text-align: left; padding-right: 30px; }
+.before-chip { position: relative; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: min(130px, 100%); min-height: 40px; padding: 3px 0 3px 28px; }
+.movement-btn { position: absolute; top: 50%; left: -7px; transform: translateY(-50%); display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.movement-btn::before { content: '±'; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #e3edf0; color: #5b7d87; font-size: 14px; font-weight: 700; line-height: 1; transition: transform .1s, background .1s; }
+.movement-btn:active::before { transform: scale(.85); background: #bcd5db; }
+.before-base { font-size: 18px; font-weight: 800; }
 .before-calc { display: flex; flex-direction: column; align-items: center; gap: 1px; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .calc-total { white-space: nowrap; }
-.calc-total { font-size: 15px; font-weight: 800; color: #1f2a30; }
-.calc-detail { font-size: 11px; color: #7a898f; }
+.calc-total { font-size: 18px; font-weight: 800; color: #1f2a30; }
+.calc-detail { font-size: 12px; color: #7a898f; white-space: nowrap; }
 .move-add { color: #18794e; font-weight: 700; }
 .move-remove { color: #b42318; font-weight: 700; }
-.count-input { width: 88px; height: 38px; border: 2px solid #aebbc1; border-radius: 7px; background: #fff; text-align: center; font-size: 19px; font-weight: 850; outline: none; color: #1e2d34; }
+.count-input { width: 88px; height: 38px; border: 2px solid #aebbc1; border-radius: 7px; background: #fff; text-align: center; font-size: 22px; font-weight: 850; outline: none; color: #1e2d34; }
 .count-input:focus { border-color: #294852; }
 .summary-actions { flex-wrap: wrap; justify-content: flex-end; }
-.sold-cell { font-size: 18px; font-weight: 850; }
+.sold-cell { font-size: 20px; font-weight: 850; }
 .sold-cell.surplus { color: #a65d00; }
 .empty { padding: 22px; text-align: center; color: var(--muted); border: 1px dashed #cbd4d8; border-radius: 8px; }
 .pump-section { margin-top: 15px; }
@@ -153,7 +155,7 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
   .summary-actions { gap: 5px; }
   .summary-actions .btn { padding: 0 8px; font-size: 11px; }
   .sheet-head,
-  .sheet-row { grid-template-columns: minmax(0,1fr) 176px 128px 92px; }
+  .sheet-row { grid-template-columns: minmax(0,1fr) 184px 134px 98px; }
   .pump-fuel { grid-template-columns: 115px 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .product-admin-row { grid-template-columns: 44px minmax(120px,1fr) 150px auto; }
@@ -163,11 +165,17 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
   .summary-bottom { align-items: flex-start; }
   .summary-state { flex-wrap: wrap; white-space: normal; }
   .sheet-head,
-  .sheet-row { grid-template-columns: minmax(0,1fr) 90px 86px 70px; }
+  .sheet-row { grid-template-columns: minmax(0,1fr) 142px 90px 72px; }
+  .before-cell { text-align: center; padding-right: 2px; }
+  .before-chip { width: min(134px, 100%); padding: 3px 0 3px 26px; }
+  .movement-btn { left: -8px; width: 42px; height: 42px; }
+  .movement-btn::before { width: 24px; height: 24px; font-size: 14px; }
+  .calc-detail { font-size: 11px; }
+  .sold-cell { font-size: 19px; }
   .sheet-head span:first-child { padding-left: 8px; }
   .cell { padding: 4px; }
-  .name-cell { padding-left: 7px; }
-  .count-input { width: 70px; font-size: 17px; }
+  .name-cell { padding-left: 8px; }
+  .count-input { width: 100%; font-size: 21px; }
   .pump-fuel { grid-template-columns: 1fr; }
   .pump-entry { flex-wrap: wrap; }
   .product-admin-row { grid-template-columns: 40px minmax(105px,1fr) 125px auto; gap: 4px; }
@@ -250,17 +258,65 @@ body.inventory-mode #categoryMenu { position: sticky; top: var(--inventory-heade
 .numpad-close { justify-self: end; display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 50%; background: #e3e9ec; color: #5b6f77; padding: 0; transition: transform .12s, background .12s; }
 .numpad-close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; fill: none; }
 .numpad-close:active { transform: scale(.88); background: #cfd9de; }
-.numpad-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+.numpad-grid { display: grid; grid-template-columns: .6fr repeat(3,1fr) .6fr; gap: 6px; }
 .numpad-grid button { height: 52px; border: 1px solid #c6d0d4; border-radius: 10px; background: #fff; font-size: 23px; font-weight: 800; color: #1f2a30; touch-action: manipulation; }
 .numpad-grid button:active { background: #e2ecef; }
 .numpad-grid .operator { background: #eaf4f2; color: #125b5b; border-color: #c7dfd9; }
 .numpad-grid .clear { background: #fff0f0; color: #ba3030; border-color: #f1b9b9; }
 .numpad-grid .backspace { background: #fff8e8; color: #8c6215; border-color: #ead39d; }
 .numpad-grid .equals { grid-column: span 2; background: #eaf4f2; color: #125b5b; border-color: #c7dfd9; }
-.numpad-grid .enter { grid-column: span 2; background: #125b5b; color: #fff; border-color: #125b5b; font-size: 19px; }
+.numpad-grid .enter { background: #125b5b; color: #fff; border-color: #125b5b; font-size: 19px; }
+.numpad-grid .operator, .numpad-grid .clear, .numpad-grid .backspace { font-size: 20px; }
+.numpad-grid .clear, .numpad-grid .backspace { height: auto; }
+/* Chiffres au centre, effacer à gauche et opérateurs à droite : le pavé est symétrique. */
+.numpad-grid [data-np-key="C"] { grid-area: 1 / 1 / 3 / 2; }
+.numpad-grid [data-np-key="⌫"] { grid-area: 3 / 1 / 5 / 2; }
+.numpad-grid [data-np-key="7"] { grid-area: 1 / 2; }
+.numpad-grid [data-np-key="8"] { grid-area: 1 / 3; }
+.numpad-grid [data-np-key="9"] { grid-area: 1 / 4; }
+.numpad-grid [data-np-key="4"] { grid-area: 2 / 2; }
+.numpad-grid [data-np-key="5"] { grid-area: 2 / 3; }
+.numpad-grid [data-np-key="6"] { grid-area: 2 / 4; }
+.numpad-grid [data-np-key="1"] { grid-area: 3 / 2; }
+.numpad-grid [data-np-key="2"] { grid-area: 3 / 3; }
+.numpad-grid [data-np-key="3"] { grid-area: 3 / 4; }
+.numpad-grid [data-np-key="0"] { grid-area: 4 / 2 / 5 / 5; }
+.numpad-grid [data-np-key="/"] { grid-area: 1 / 5; }
+.numpad-grid [data-np-key="*"] { grid-area: 2 / 5; }
+.numpad-grid [data-np-key="-"] { grid-area: 3 / 5; }
+.numpad-grid [data-np-key="+"] { grid-area: 4 / 5; }
+.numpad-grid [data-np-key="="] { grid-area: 5 / 1 / 6 / 3; }
+.numpad-grid [data-np-key="enter"] { grid-area: 5 / 3 / 6 / 6; }
 @media(max-height:620px) {
   .numpad-grid button { height: 42px; font-size: 20px; }
   .numpad-grid { gap: 5px; }
+}
+/* Téléphone : textes un peu plus petits pour garder les noms lisibles. */
+@media(max-width:460px) {
+  .sheet-head,
+  .sheet-row { grid-template-columns: minmax(0,1fr) 112px 72px 56px; }
+  .name-cell strong { font-size: 15px; }
+  .before-chip { width: min(104px, 100%); padding-left: 24px; }
+  .before-base, .calc-total { font-size: 16px; }
+  .calc-detail { font-size: 9.5px; }
+  .count-input { font-size: 19px; }
+  .sold-cell { font-size: 17px; }
+}
+/* Écran bas (tablette en paysage) : pavé plus compact pour laisser de la place aux fenêtres. */
+@media(max-height:620px) {
+  #numpad { padding-top: 5px; }
+  .numpad-top { margin-bottom: 4px; }
+  .numpad-grid { gap: 4px; }
+  .numpad-grid button { height: 40px; font-size: 20px; border-radius: 8px; }
+  .numpad-grid .clear, .numpad-grid .backspace { height: auto; }
+  .overlay .dialog { padding: 10px 14px; }
+  .overlay .dialog h2 { font-size: 16px; margin: 0 0 2px; }
+  .overlay .dialog p { margin: 2px 0 6px; line-height: 1.25; font-size: 13px; }
+  .overlay .dialog .segment button { height: 38px; }
+  .overlay .dialog label { font-size: 13px; }
+  .overlay .dialog input, .overlay .dialog select { height: 38px; margin-top: 3px; }
+  .overlay .dialog-actions { margin-top: 8px; padding-top: 6px; padding-bottom: 6px; }
+  .overlay .dialog-actions .btn { height: 38px; }
 }
 body.numpad-open main { padding-bottom: calc(var(--numpad-h,0px) + 24px); }
 body.numpad-open .toast { bottom: calc(var(--numpad-h,0px) + 14px); }
@@ -901,7 +957,7 @@ function genericDialog({title, text = '', html = '', okText = 'OK', cancelText =
 // Le contenu est enveloppé dans une « pastille » en relief (avec un badge ±) pour montrer qu'on peut toucher ici
 // afin d'ajouter une livraison ou un retrait.
 function beforeHtml(p) {
-  return `<span class="before-chip">${beforeContent(p)}</span>`
+  return `<span class="before-chip"><button type="button" class="movement-btn" data-movement="${esc(p.id)}" title="Ajouter ou retirer du stock" aria-label="Ajouter ou retirer du stock pour ${esc(p.name)}"></button>${beforeContent(p)}</span>`
 }
 
 function beforeContent(p) {
@@ -940,7 +996,7 @@ function stockRowHtml(p) {
   return [
     `<div class="sheet-row ${p.id === activeProductId ? 'active' : ''} ${st.surplus ? 'warning' : ''}" data-product-row="${esc(p.id)}">`,
     `<div class="cell name-cell"><span class="warn">${st.surplus ? '⚠' : ''}</span><strong>${esc(p.name)}</strong></div>`,
-    `<div class="cell before-cell" role="button" title="Ajouter ou retirer du stock" data-movement="${esc(p.id)}">${beforeHtml(p)}</div>`,
+    `<div class="cell before-cell">${beforeHtml(p)}</div>`,
     `<div class="cell">${stockCell}</div>`,
     `<div class="cell sold-cell ${st.surplus ? 'surplus' : ''}">${soldHtml(p)}</div>`,
     '</div>'
@@ -1693,12 +1749,18 @@ function printSnapshot(snapshot) {
   doc.open();
   doc.write(`<!doctype html><html><head><meta charset="utf-8"><title>Inventaire</title><style>${PRINT_CSS}</style></head><body>${reportHtml(day,products)}</body></html>`);
   doc.close();
+  // Android envoie le titre de la page comme nom du travail d'impression : on le garde simple (sans accents ni tirets).
+  const previousTitle = document.title;
+  document.title = 'Inventaire';
   setTimeout(() => {
     try {
       frame.contentWindow.focus();
       frame.contentWindow.print()
     } finally {
-      setTimeout(() => frame.remove(), 60000)
+      setTimeout(() => {
+        document.title = previousTitle;
+        frame.remove()
+      }, 60000)
     }
   }, 400)
 }
