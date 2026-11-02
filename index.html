@@ -323,6 +323,24 @@ body.numpad-open .toast { bottom: calc(var(--numpad-h,0px) + 14px); }
 @media print {
   #numpad { display: none!important; }
 }
+
+/* Mouvements : deux commandes et deux historiques réellement indépendants. */
+.movement-dialog{width:min(680px,100%)}
+.movement-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.movement-column{min-width:0;padding:10px;border:1px solid #d8dee2;border-radius:10px}
+.movement-column h3{margin:0 0 10px;text-align:center;font-size:16px}
+.withdrawal-column{background:#fff9f8}.withdrawal-column h3{color:#b42318}
+.delivery-column{background:#f6fcf8}.delivery-column h3{color:#18794e}
+.movement-column label{font-size:12px;font-weight:700;display:block}
+.movement-column input{font-size:20px;font-weight:800;text-align:center}
+.movement-submit{width:100%;min-height:42px;margin-top:10px}
+.remove-submit{background:#b42318;color:white;border-color:#b42318}
+.add-submit{background:#18794e;color:white;border-color:#18794e}
+.movement-column .movement-list{max-height:180px}
+.movement-column .movement-item{grid-template-columns:1fr auto;gap:4px;font-size:12px}
+.movement-column .movement-item span{grid-column:1/-1;font-weight:800}
+.movement-column .movement-item .btn{font-size:11px;padding:0 5px}
+@media(max-width:460px){.movement-columns{gap:6px}.movement-column{padding:7px 5px}.movement-column h3{font-size:14px}.movement-column .movement-item .btn{font-size:10px}}
 </style>
 </head>
 <body class="inventory-mode">
@@ -425,20 +443,26 @@ body.numpad-open .toast { bottom: calc(var(--numpad-h,0px) + 14px); }
   <div class="dialog" id="genericDialog"></div>
 </div>
 <div class="overlay" id="movementOverlay" aria-hidden="true">
-  <div class="dialog">
+  <div class="dialog movement-dialog">
     <h2 id="movementTitle">Mouvement</h2>
     <p id="movementStockInfo"></p>
-    <div class="segment">
-      <button id="movementRemove" class="remove">− Retrait</button>
-      <button id="movementAdd" class="add selected">+ Livraison</button>
+    <div class="movement-columns">
+      <section class="movement-column withdrawal-column">
+        <h3>− Retraits</h3>
+        <label>Quantité à retirer<input id="movementRemoveQty" data-numpad="dialog" inputmode="none" autocomplete="off"></label>
+        <button class="btn movement-submit remove-submit" id="movementRemoveSave">Valider le retrait</button>
+        <div class="movement-history-title">Historique des retraits</div>
+        <div class="movement-list" id="movementRemoveHistory"></div>
+      </section>
+      <section class="movement-column delivery-column">
+        <h3>+ Livraisons</h3>
+        <label>Quantité à ajouter<input id="movementAddQty" data-numpad="dialog" inputmode="none" autocomplete="off"></label>
+        <button class="btn movement-submit add-submit" id="movementAddSave">Valider la livraison</button>
+        <div class="movement-history-title">Historique des livraisons</div>
+        <div class="movement-list" id="movementAddHistory"></div>
+      </section>
     </div>
-    <label>Quantité<input id="movementQty" data-numpad="dialog" inputmode="none" autocomplete="off"></label>
-    <div class="dialog-actions">
-      <button class="btn" id="movementCancel">Fermer</button>
-      <button class="btn primary" id="movementSave">Ajouter la livraison</button>
-    </div>
-    <div class="movement-history-title">Historique — modifier ou supprimer</div>
-    <div class="movement-list" id="movementHistory"></div>
+    <div class="dialog-actions"><button class="btn" id="movementCancel">Fermer</button></div>
   </div>
 </div>
 <div class="overlay" id="postSaleOverlay" aria-hidden="true">
@@ -1185,16 +1209,10 @@ function openMovement(id) {
   if (!p) return;
   movementContext = {id, kind: 'delivery'};
   $('#movementTitle').textContent = p.name;
-  $('#movementQty').value = '';
+  $('#movementRemoveQty').value = '';
+  $('#movementAddQty').value = '';
   renderMovementDialog();
   openOverlay($('#movementOverlay'));
-  setTimeout(() => $('#movementQty').focus(), 40)
-}
-
-function setMovementKind(kind) {
-  movementContext.kind = kind;
-  renderMovementDialog();
-  $('#movementQty').focus()
 }
 
 const timeLabel = ts => new Date(ts || Date.now()).toLocaleTimeString('fr-BE', {hour: '2-digit', minute: '2-digit'});
@@ -1213,40 +1231,36 @@ function movementStockInfo(st) {
 function renderMovementDialog() {
   const p = productById(movementContext.id);
   if (!p) return;
-  const st = stockState(p);
-  $('#movementStockInfo').textContent = movementStockInfo(st);
-  $('#movementAdd').classList.toggle('selected', movementContext.kind === 'delivery');
-  $('#movementRemove').classList.toggle('selected', movementContext.kind === 'withdrawal');
-  $('#movementSave').textContent = movementContext.kind === 'delivery' ? 'Ajouter la livraison' : 'Enregistrer le retrait';
-  const items = ['delivery', 'withdrawal'].flatMap(kind => movementList(kind, p.id).map(m => ({...m, kind}))).sort((a, b) => number(b.ts) - number(a.ts));
-  $('#movementHistory').innerHTML = items.length ? items.map(movementItemHtml).join('') : '<div style="padding:9px;color:#78888f">Aucun mouvement</div>'
+  $('#movementStockInfo').textContent = movementStockInfo(stockState(p));
+  for (const [kind, target] of [['withdrawal', '#movementRemoveHistory'], ['delivery', '#movementAddHistory']]) {
+    const items = movementList(kind, p.id).map(m => ({...m, kind})).sort((a,b) => number(b.ts)-number(a.ts));
+    $(target).innerHTML = items.length ? items.map(movementItemHtml).join('') : '<div style="padding:9px;color:#78888f">Aucun mouvement</div>';
+  }
 }
 
-function saveMovement() {
-  const id = movementContext.id, kind = movementContext.kind, value = number($('#movementQty').value);
-  if (value <= 0) {
-    $('#movementQty').focus();
-    return
-  }
+function saveMovement(kind) {
+  const id = movementContext.id;
+  const input = kind === 'delivery' ? $('#movementAddQty') : $('#movementRemoveQty');
+  const value = number(input.value);
+  if (value <= 0) { input.focus(); return; }
   const list = movementList(kind, id);
   const m = {id: 'm' + Date.now() + Math.random().toString(36).slice(2, 6), value, ts: Date.now()};
   list.push(m);
   if (db.day.serviceFinished) {
     const box = db.day.postMovement[kind];
-    (box[id] || (box[id] = [])).push({...m})
+    (box[id] || (box[id] = [])).push({...m});
   } else if (db.day.countBaseline?.[id]) {
-    // Tant que le comptage global n'est pas validé, le mouvement concerne le stock AVANT.
-    // Le comptage physique saisi reste modifiable et n'est pas transformé en stock vert.
     db.day.countBaseline[id][kind] = number(db.day.countBaseline[id][kind]) + value;
     const ids = db.day.countMovementIds[id] || (db.day.countMovementIds[id] = {delivery: [], withdrawal: []});
     (ids[kind] || (ids[kind] = [])).push(m.id);
   }
   syncMovement(kind, id);
   save();
-  $('#movementQty').value = '';
+  input.value = '';
   renderInventory();
-  closeOverlay($('#movementOverlay'));
-  toast(kind === 'delivery' ? `✓ Ajout de ${value}` : `✓ Retrait de ${value}`)
+  renderMovementDialog();
+  closeNumpad();
+  toast(kind === 'delivery' ? `✓ Ajout de ${value}` : `✓ Retrait de ${value}`);
 }
 // Corriger un mouvement historique ne doit pas modifier un comptage physique déjà réalisé.
 // Un mouvement postérieur au comptage, lui, doit modifier le stock réel.
@@ -1739,30 +1753,54 @@ const PRINT_CSS = [
   '.stock-table th,.stock-table td{height:4.15mm;padding:.08mm .55mm;line-height:1;vertical-align:middle}'
 ].join('');
 
+let printingInProgress = false;
 function printSnapshot(snapshot) {
+  if (printingInProgress) return;
+  printingInProgress = true;
   const day = snapshot.data || snapshot, products = snapshot.products || db.products;
   const frame = document.createElement('iframe');
   frame.setAttribute('aria-hidden', 'true');
-  frame.style.cssText = 'position:fixed;left:-10000px;top:0;width:210mm;height:297mm;border:0;pointer-events:none';
-  document.body.appendChild(frame);
-  const doc = frame.contentDocument;
-  doc.open();
-  doc.write(`<!doctype html><html><head><meta charset="utf-8"><title>Inventaire</title><style>${PRINT_CSS}</style></head><body>${reportHtml(day,products)}</body></html>`);
-  doc.close();
-  // Android envoie le titre de la page comme nom du travail d'impression : on le garde simple (sans accents ni tirets).
-  const previousTitle = document.title;
-  document.title = 'Inventaire';
-  setTimeout(() => {
+  frame.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;border:0;pointer-events:none';
+  let started = false;
+  let finished = false;
+  let fallbackTimer;
+  const cleanup = () => {
+    if (finished) return;
+    finished = true;
+    clearTimeout(fallbackTimer);
+    frame.remove();
+    printingInProgress = false;
+  };
+  const startPrint = () => {
+    if (started || finished) return;
+    started = true;
     try {
-      frame.contentWindow.focus();
-      frame.contentWindow.print()
-    } finally {
-      setTimeout(() => {
-        document.title = previousTitle;
-        frame.remove()
-      }, 60000)
+      const printWindow = frame.contentWindow;
+      printWindow.addEventListener('afterprint', () => setTimeout(cleanup, 1500), {once: true});
+      // Une seule demande d'impression ; le titre principal n'est jamais modifié.
+      printWindow.focus();
+      printWindow.print();
+    } catch (error) {
+      console.error('Impression impossible :', error);
+      toast('Impression impossible sur ce navigateur');
+      cleanup();
     }
-  }, 400)
+  };
+  frame.onload = () => setTimeout(startPrint, 400);
+  document.body.appendChild(frame);
+  try {
+    const doc = frame.contentDocument;
+    doc.open();
+    doc.write(`<!doctype html><html><head><meta charset="utf-8"><title>Inventaire du ${esc(formatDate(day.date))}</title><style>${PRINT_CSS}</style></head><body>${reportHtml(day,products)}</body></html>`);
+    doc.close();
+    // Secours si l'événement load ne se déclenche pas sur certains navigateurs Android.
+    setTimeout(startPrint, 2000);
+    fallbackTimer = setTimeout(cleanup, 90000);
+  } catch (error) {
+    console.error('Préparation de l’impression impossible :', error);
+    toast('Préparation de l’impression impossible');
+    cleanup();
+  }
 }
 
 function downloadBackup(prefix = 'inventaire-v200') {
@@ -2089,27 +2127,20 @@ $('#inventoryContent').addEventListener('click', e => {
     activateCountInput(input, {select: true})
   }
 });
-$('#movementAdd').addEventListener('pointerdown', e => {
-  e.preventDefault();
-  setMovementKind('delivery')
-});
-$('#movementRemove').addEventListener('pointerdown', e => {
-  e.preventDefault();
-  setMovementKind('withdrawal')
-});
-$('#movementAdd').addEventListener('click', () => setMovementKind('delivery'));
-$('#movementRemove').addEventListener('click', () => setMovementKind('withdrawal'));
-$('#movementSave').addEventListener('click', saveMovement);
-$('#movementCancel').addEventListener('click', () => closeOverlay($('#movementOverlay')));
-$('#movementQty').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveMovement()
-});
-$('#movementHistory').addEventListener('click', e => {
-  const a = e.target.closest('[data-edit-movement]');
-  if (a) editMovement(a.dataset.editMovement);
-  const d = e.target.closest('[data-delete-movement]');
-  if (d) deleteMovement(d.dataset.deleteMovement)
-});
+$('#movementAddSave').addEventListener('click', () => saveMovement('delivery'));
+$('#movementRemoveSave').addEventListener('click', () => saveMovement('withdrawal'));
+$('#movementCancel').addEventListener('click', () => {closeNumpad(); closeOverlay($('#movementOverlay'))});
+for (const [id, kind] of [['movementAddQty','delivery'],['movementRemoveQty','withdrawal']]) {
+  $('#'+id).addEventListener('keydown', e => {if (e.key === 'Enter') saveMovement(kind)});
+}
+for (const selector of ['#movementAddHistory','#movementRemoveHistory']) {
+  $(selector).addEventListener('click', e => {
+    const a = e.target.closest('[data-edit-movement]');
+    if (a) editMovement(a.dataset.editMovement);
+    const d = e.target.closest('[data-delete-movement]');
+    if (d) deleteMovement(d.dataset.deleteMovement);
+  });
+}
 
 $('#finishInventoryButton').addEventListener('click', finishInventory);
 $('#postSaleCancel').addEventListener('click', () => closeOverlay($('#postSaleOverlay')));
