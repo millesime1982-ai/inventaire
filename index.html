@@ -337,10 +337,10 @@ body.numpad-open .toast { bottom: calc(var(--numpad-h,0px) + 14px); }
 .remove-submit{background:#b42318;color:white;border-color:#b42318}
 .add-submit{background:#18794e;color:white;border-color:#18794e}
 .movement-column .movement-list{max-height:180px}
-.movement-column .movement-item{grid-template-columns:1fr auto;gap:4px;font-size:12px}
-.movement-column .movement-item span{grid-column:1/-1;font-weight:800}
-.movement-column .movement-item .btn{font-size:11px;padding:0 5px}
-@media(max-width:460px){.movement-columns{gap:6px}.movement-column{padding:7px 5px}.movement-column h3{font-size:14px}.movement-column .movement-item .btn{font-size:10px}}
+.movement-column .movement-item{grid-template-columns:minmax(0,1fr) auto auto;gap:4px;font-size:12px;padding:6px 0}
+.movement-column .movement-item span{grid-column:auto;min-width:0;font-weight:800;white-space:nowrap}
+.movement-column .movement-item .btn{width:auto;min-width:0;min-height:28px;height:28px;font-size:11px;padding:2px 6px;border-radius:6px;white-space:nowrap}
+@media(max-width:460px){.movement-columns{gap:6px}.movement-column{padding:7px 5px}.movement-column h3{font-size:14px}.movement-column .movement-item{gap:2px;font-size:10px}.movement-column .movement-item .btn{font-size:9px;padding:2px 3px}}
 </style>
 </head>
 <body class="inventory-mode">
