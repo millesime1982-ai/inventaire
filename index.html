@@ -418,6 +418,12 @@ body:not(.inventory-mode) .header-summary { display: none; }
   .header-title { font-size: 21px; }
   .header-summary .summary-actions .btn { font-size: 11px; }
 }
+
+/* Stock du jour : chiffre cliquable, sans bouton ± et centré. */
+.before-cell { cursor: pointer; }
+.before-cell .before-chip { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; padding: 0; gap: 0; }
+.before-cell .before-base, .before-cell .before-calc { text-align: center; margin: 0 auto; }
+.before-cell:focus-visible { outline: 2px solid #146b70; outline-offset: -3px; }
 </style>
 </head>
 <body class="inventory-mode">
@@ -1058,7 +1064,8 @@ function genericDialog({title, text = '', html = '', okText = 'OK', cancelText =
 // Le contenu est enveloppé dans une « pastille » en relief (avec un badge ±) pour montrer qu'on peut toucher ici
 // afin d'ajouter une livraison ou un retrait.
 function beforeHtml(p) {
-  return `<span class="before-chip"><button type="button" class="movement-btn" data-movement="${esc(p.id)}" title="Ajouter ou retirer du stock" aria-label="Ajouter ou retirer du stock pour ${esc(p.name)}"></button>${beforeContent(p)}</span>`
+  // Le stock du jour lui-même ouvre les mouvements, sans symbole ±.
+  return `<span class="before-chip">${beforeContent(p)}</span>`;
 }
 
 function beforeContent(p) {
@@ -1098,7 +1105,7 @@ function stockRowHtml(p) {
   return [
     `<div class="sheet-row ${p.id === activeProductId ? 'active' : ''} ${st.surplus ? 'warning' : ''}" data-product-row="${esc(p.id)}">`,
     `<div class="cell name-cell"><span class="warn">${st.surplus ? '⚠' : ''}</span><strong>${esc(p.name)}</strong></div>`,
-    `<div class="cell before-cell" data-movement="${esc(p.id)}">${beforeHtml(p)}</div>`,
+    `<div class="cell before-cell" data-movement="${esc(p.id)}" role="button" tabindex="0" aria-label="Livraisons et retraits pour ${esc(p.name)}">${beforeHtml(p)}</div>`,
     `<div class="cell"><span class="count-with-sales">${stockCell}<small class="sales-mini ${st.surplus ? 'surplus' : ''}">${soldLabel}</small></span></div>`,
     '</div>'
   ].join('')
@@ -2181,6 +2188,13 @@ $('#inventoryContent').addEventListener('change', e => {
 });
 $('#inventoryContent').addEventListener('keydown', e => {
   if (e.target.matches('[data-count]')) handleCountKeydown(e)
+});
+$('#inventoryContent').addEventListener('keydown', e => {
+  const cell = e.target.closest('.before-cell[data-movement]');
+  if (cell && (e.key === 'Enter' || e.key === ' ')) {
+    e.preventDefault();
+    openMovement(cell.dataset.movement);
+  }
 });
 $('#inventoryContent').addEventListener('click', e => {
   const mv = e.target.closest('[data-movement]');
