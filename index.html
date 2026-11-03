@@ -40,7 +40,7 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
 .category-chips button.active { background: #0f5c5e; color: #fff; border-color: #0f5c5e; }
 .sheet { border: 1px solid #cfd7da; border-radius: 8px; overflow: hidden; }
 .sheet-head,
-.sheet-row { display: grid; grid-template-columns: minmax(0,1fr) 192px 140px 102px; align-items: center; }
+.sheet-row { display: grid; grid-template-columns: minmax(0,1fr) 192px 160px; align-items: center; }
 .sheet-head { height: 36px; background: #edf0f2; color: #52656d; font-size: 11px; font-weight: 800; letter-spacing: .04em; }
 .sheet-head span { text-align: center; }
 .sheet-head span:first-child { text-align: left; padding-left: 14px; }
@@ -51,17 +51,17 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
 .sheet-row.warning { background: #fffefa; box-shadow: inset 3px 0 #dfa03a; }
 .cell { min-width: 0; padding: 5px 8px; text-align: center; }
 .name-cell { display: flex; align-items: center; gap: 6px; text-align: left; padding-left: 12px; overflow: hidden; }
-.name-cell strong { font-size: 17px; font-weight: 500; color: #1f2a30; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+.name-cell strong { font-size: 18px; font-weight: 500; color: #1f2a30; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
 .warn { width: 16px; color: #a65d00; font-weight: 900; text-align: center; }
 .before-cell { cursor: pointer; line-height: 1.1; text-align: left; padding-right: 30px; }
 .before-chip { position: relative; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: min(130px, 100%); min-height: 40px; padding: 3px 0 3px 28px; }
 .movement-btn { position: absolute; top: 50%; left: -7px; transform: translateY(-50%); display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .movement-btn::before { content: '±'; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #e3edf0; color: #5b7d87; font-size: 14px; font-weight: 700; line-height: 1; transition: transform .1s, background .1s; }
 .movement-btn:active::before, .before-cell:active .movement-btn::before { transform: scale(.85); background: #bcd5db; }
-.before-base { font-size: 18px; font-weight: 800; }
+.before-base { font-size: 20px; font-weight: 800; }
 .before-calc { display: flex; flex-direction: column; align-items: center; gap: 1px; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .calc-total { white-space: nowrap; }
-.calc-total { font-size: 18px; font-weight: 800; color: #1f2a30; }
+.calc-total { font-size: 20px; font-weight: 800; color: #1f2a30; }
 .calc-detail { font-size: 12px; color: #7a898f; white-space: nowrap; }
 .move-add { color: #18794e; font-weight: 700; }
 .move-remove { color: #b42318; font-weight: 700; }
@@ -70,6 +70,20 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
 .summary-actions { flex-wrap: wrap; justify-content: flex-end; }
 .sold-cell { font-size: 20px; font-weight: 850; }
 .sold-cell.surplus { color: #a65d00; }
+/* Présentation 1 : même hauteur pour chaque article, vente sous le comptage. */
+.sheet-row { min-height: 76px; }
+.count-with-sales { height: 62px; justify-content: flex-start; }
+.count-with-sales .count-input { height: 40px; flex: 0 0 40px; }
+.count-with-sales .current-stock-button { height: 40px; min-height: 40px; flex: 0 0 40px; }
+.count-with-sales .sales-mini { height: 18px; line-height: 18px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; }
+/* Ventes discrètes intégrées au comptage, sans colonne supplémentaire. */
+.count-with-sales { display: inline-flex; flex-direction: column; align-items: stretch; justify-content: center; width: 116px; max-width: 100%; }
+.count-with-sales .count-input { width: 100%; }
+.count-with-sales .current-stock-button { width: 100%; }
+.sales-mini { display: block; width: 100%; text-align: right; font-size: 13px; font-weight: 750; color: #40545d; white-space: nowrap; line-height: 1.2; margin-top: 3px; }
+.sales-mini.surplus { color: #a65d00; }
+@media(max-width:620px) { .count-with-sales { width: 100%; } .sales-mini { font-size: 12px; } }
+
 .empty { padding: 22px; text-align: center; color: var(--muted); border: 1px dashed #cbd4d8; border-radius: 8px; }
 .pump-section { margin-top: 15px; }
 .pump-section h3 { font-size: 14px; color: #35515a; margin: 0 0 8px; }
@@ -155,7 +169,7 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
   .summary-actions { gap: 5px; }
   .summary-actions .btn { padding: 0 8px; font-size: 11px; }
   .sheet-head,
-  .sheet-row { grid-template-columns: minmax(0,1fr) 184px 134px 98px; }
+  .sheet-row { grid-template-columns: minmax(0,1fr) 184px 150px; }
   .pump-fuel { grid-template-columns: 115px 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .product-admin-row { grid-template-columns: 44px minmax(120px,1fr) 150px auto; }
@@ -165,7 +179,7 @@ main { padding: 10px 12px 40px; max-width: 760px; margin: 0 auto; }
   .summary-bottom { align-items: flex-start; }
   .summary-state { flex-wrap: wrap; white-space: normal; }
   .sheet-head,
-  .sheet-row { grid-template-columns: minmax(0,1fr) 142px 90px 72px; }
+  .sheet-row { grid-template-columns: minmax(0,1fr) 142px 110px; }
   .before-cell { text-align: center; padding-right: 2px; }
   .before-chip { width: min(134px, 100%); padding: 3px 0 3px 26px; }
   .movement-btn { left: -8px; width: 42px; height: 42px; }
@@ -294,10 +308,10 @@ body.inventory-mode #categoryMenu { position: sticky; top: var(--inventory-heade
 /* Téléphone : textes un peu plus petits pour garder les noms lisibles. */
 @media(max-width:460px) {
   .sheet-head,
-  .sheet-row { grid-template-columns: minmax(0,1fr) 112px 72px 56px; }
-  .name-cell strong { font-size: 15px; }
+  .sheet-row { grid-template-columns: minmax(0,1fr) 112px 96px; }
+  .name-cell strong { font-size: 16px; }
   .before-chip { width: min(104px, 100%); padding-left: 24px; }
-  .before-base, .calc-total { font-size: 16px; }
+  .before-base, .calc-total { font-size: 17px; }
   .calc-detail { font-size: 9.5px; }
   .count-input { font-size: 19px; }
   .sold-cell { font-size: 17px; }
@@ -1017,18 +1031,18 @@ function stockRowHtml(p) {
   const stockCell = db.day.serviceFinished
     ? `<button type="button" class="current-stock-button" data-post-current="${esc(p.id)}" aria-label="Enregistrer une vente après inventaire pour ${esc(p.name)}"><strong>${st.current === null ? '—' : compact(st.current)}</strong></button>`
     : `<input class="count-input" data-count="${esc(p.id)}" data-numpad="count" type="text" inputmode="none" enterkeyhint="next" autocomplete="off" value="${esc(value)}">`;
+  const soldLabel = st.counted === null ? '' : (st.surplus ? `Écart +${compact(Math.abs(st.sold))}` : `Vendu ${compact(st.sold)}`);
   return [
     `<div class="sheet-row ${p.id === activeProductId ? 'active' : ''} ${st.surplus ? 'warning' : ''}" data-product-row="${esc(p.id)}">`,
     `<div class="cell name-cell"><span class="warn">${st.surplus ? '⚠' : ''}</span><strong>${esc(p.name)}</strong></div>`,
     `<div class="cell before-cell" data-movement="${esc(p.id)}">${beforeHtml(p)}</div>`,
-    `<div class="cell">${stockCell}</div>`,
-    `<div class="cell sold-cell ${st.surplus ? 'surplus' : ''}">${soldHtml(p)}</div>`,
+    `<div class="cell"><span class="count-with-sales">${stockCell}<small class="sales-mini ${st.surplus ? 'surplus' : ''}">${soldLabel}</small></span></div>`,
     '</div>'
   ].join('')
 }
 
 function stockSheetHtml(stocks) {
-  const columns = ['ARTICLE', 'AVANT', db.day.serviceFinished ? 'STOCK ACTUEL' : 'COMPTÉ', 'VENDU'];
+  const columns = ['ARTICLE', 'STOCK DU JOUR', db.day.serviceFinished ? 'STOCK ACTUEL' : 'COMPTÉ'];
   return `<div class="sheet"><div class="sheet-head">${columns.map(c => `<span>${c}</span>`).join('')}</div>${stocks.map(stockRowHtml).join('')}</div>`
 }
 
@@ -1161,9 +1175,9 @@ function refreshCountDisplay(id) {
     const row = $(`[data-product-row="${CSS.escape(id)}"]`), s = stockState(p);
     if (row) {
       row.classList.toggle('warning', s.surplus);
-      const sold = row.querySelector('.sold-cell'), warn = row.querySelector('.warn');
+      const sold = row.querySelector('.sales-mini'), warn = row.querySelector('.warn');
       if (sold) {
-        sold.innerHTML = soldHtml(p);
+        sold.textContent = s.counted === null ? '' : (s.surplus ? `Écart +${compact(Math.abs(s.sold))}` : `Vendu ${compact(s.sold)}`);
         sold.classList.toggle('surplus', s.surplus)
       }
       if (warn) warn.textContent = s.surplus ? '⚠' : ''
@@ -1753,48 +1767,53 @@ const PRINT_CSS = [
   '.stock-table th,.stock-table td{height:4.15mm;padding:.08mm .55mm;line-height:1;vertical-align:middle}'
 ].join('');
 
+// Impression depuis la page principale : évite les impressions de sous-fenêtres
+// invisibles, parfois signalées en erreur par le spouleur Android.
 let printingInProgress = false;
 function printSnapshot(snapshot) {
   if (printingInProgress) return;
   printingInProgress = true;
-  const day = snapshot.data || snapshot, products = snapshot.products || db.products;
-  const frame = document.createElement('iframe');
-  frame.setAttribute('aria-hidden', 'true');
-  frame.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;border:0;pointer-events:none';
-  let started = false;
-  let finished = false;
+  const day = snapshot.data || snapshot;
+  const products = snapshot.products || db.products;
+  const root = document.createElement('div');
+  root.id = 'inventory-print-root';
+  const style = document.createElement('style');
+  style.id = 'inventory-print-style';
+  style.textContent = PRINT_CSS + `
+    #inventory-print-root{display:none}
+    @media print {
+      body > :not(#inventory-print-root){display:none!important}
+      html,body{margin:0!important;padding:0!important;background:white!important}
+      #inventory-print-root{display:block!important;position:static!important;width:100%!important}
+    }`;
+  let cleaned = false;
   let fallbackTimer;
   const cleanup = () => {
-    if (finished) return;
-    finished = true;
+    if (cleaned) return;
+    cleaned = true;
     clearTimeout(fallbackTimer);
-    frame.remove();
+    window.removeEventListener('afterprint', onAfterPrint);
+    root.remove();
+    style.remove();
     printingInProgress = false;
   };
-  const startPrint = () => {
-    if (started || finished) return;
-    started = true;
-    try {
-      const printWindow = frame.contentWindow;
-      printWindow.addEventListener('afterprint', () => setTimeout(cleanup, 1500), {once: true});
-      // Une seule demande d'impression ; le titre principal n'est jamais modifié.
-      printWindow.focus();
-      printWindow.print();
-    } catch (error) {
-      console.error('Impression impossible :', error);
-      toast('Impression impossible sur ce navigateur');
-      cleanup();
-    }
-  };
-  frame.onload = () => setTimeout(startPrint, 400);
-  document.body.appendChild(frame);
+  const onAfterPrint = () => setTimeout(cleanup, 1500);
   try {
-    const doc = frame.contentDocument;
-    doc.open();
-    doc.write(`<!doctype html><html><head><meta charset="utf-8"><title>Inventaire du ${esc(formatDate(day.date))}</title><style>${PRINT_CSS}</style></head><body>${reportHtml(day,products)}</body></html>`);
-    doc.close();
-    // Secours si l'événement load ne se déclenche pas sur certains navigateurs Android.
-    setTimeout(startPrint, 2000);
+    root.innerHTML = reportHtml(day, products);
+    document.head.appendChild(style);
+    document.body.appendChild(root);
+    window.addEventListener('afterprint', onAfterPrint, {once:true});
+    // La page principale est imprimée une seule fois, sans iframe cachée.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (cleaned) return;
+      try { window.print(); }
+      catch (error) {
+        console.error('Impression impossible :', error);
+        toast('Impression impossible sur ce navigateur');
+        cleanup();
+      }
+    }));
+    // Certains navigateurs Android ne déclenchent pas afterprint.
     fallbackTimer = setTimeout(cleanup, 90000);
   } catch (error) {
     console.error('Préparation de l’impression impossible :', error);
