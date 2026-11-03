@@ -355,6 +355,38 @@ body.numpad-open .toast { bottom: calc(var(--numpad-h,0px) + 14px); }
 .movement-column .movement-item span{grid-column:auto;min-width:0;font-weight:800;white-space:nowrap}
 .movement-column .movement-item .btn{width:auto;min-width:0;min-height:28px;height:28px;font-size:11px;padding:2px 6px;border-radius:6px;white-space:nowrap}
 @media(max-width:460px){.movement-columns{gap:6px}.movement-column{padding:7px 5px}.movement-column h3{font-size:14px}.movement-column .movement-item{gap:2px;font-size:10px}.movement-column .movement-item .btn{font-size:9px;padding:2px 3px}}
+
+/* Alignement uniforme des trois colonnes, sans modifier les calculs. */
+.sheet-head, .sheet-row { grid-template-columns: minmax(0,1fr) 192px 160px; }
+.sheet-row { height: 82px; min-height: 82px; }
+.sheet-row > .cell { box-sizing: border-box; min-width: 0; }
+.before-cell { padding: 4px 8px; text-align: center; cursor: pointer; }
+.before-chip { display: grid; grid-template-columns: 30px minmax(0,1fr); align-items: center; justify-content: center; width: 100%; min-height: 46px; padding: 0; gap: 3px; }
+.movement-btn { position: static; transform: none; width: 30px; height: 42px; justify-self: center; }
+.movement-btn::before { width: 22px; height: 22px; }
+.before-base, .before-calc { justify-self: center; text-align: center; min-width: 0; }
+.before-calc { max-width: 100%; }
+.calc-detail { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.sheet-row > .cell:last-child { display: flex; align-items: center; justify-content: center; }
+.count-with-sales { width: 116px; height: 64px; max-width: 100%; display: flex; flex-direction: column; justify-content: flex-start; }
+.count-with-sales .count-input, .count-with-sales .current-stock-button { box-sizing: border-box; height: 42px; min-height: 42px; flex: 0 0 42px; }
+.count-with-sales .sales-mini { box-sizing: border-box; height: 18px; line-height: 18px; margin-top: 2px; text-align: center; }
+@media(max-width:900px) {
+ .sheet-head, .sheet-row { grid-template-columns: minmax(0,1fr) 170px 152px; }
+}
+@media(max-width:620px) {
+ .sheet-head, .sheet-row { grid-template-columns: minmax(0,1fr) 132px 110px; }
+ .before-cell { padding: 4px 2px; }
+ .before-chip { grid-template-columns: 25px minmax(0,1fr); gap: 1px; }
+ .movement-btn { width: 25px; height: 40px; }
+ .count-with-sales { width: 100%; }
+}
+@media(max-width:460px) {
+ .sheet-head, .sheet-row { grid-template-columns: minmax(0,1fr) 110px 98px; }
+ .before-chip { grid-template-columns: 22px minmax(0,1fr); }
+ .movement-btn { width: 22px; }
+}
+
 </style>
 </head>
 <body class="inventory-mode">
