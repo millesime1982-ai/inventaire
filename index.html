@@ -387,28 +387,59 @@ body.numpad-open .toast { bottom: calc(var(--numpad-h,0px) + 14px); }
  .movement-btn { width: 22px; }
 }
 
+
+/* Ajustement demandé : lignes d’articles légèrement moins hautes, sans changer les colonnes. */
+.sheet-row { height: 72px; min-height: 72px; }
+.count-with-sales { height: 58px; }
+.count-with-sales .count-input,
+.count-with-sales .current-stock-button { height: 38px; min-height: 38px; flex: 0 0 38px; }
+.count-with-sales .sales-mini { height: 18px; line-height: 18px; margin-top: 2px; }
+
+/* Correction : fixer explicitement les zones de la grille pour éviter
+   que le résumé passe avant le titre (propriété order héritée). */
+body.inventory-mode .header-title { grid-column: 1; grid-row: 1; order: 0; align-self: center; }
+body.inventory-mode #adminButton { grid-column: 2; grid-row: 1; order: 0; align-self: center; }
+body.inventory-mode .header-summary { grid-column: 1 / -1; grid-row: 2; order: 0; }
+/* Bandeau unique : titre, date, actions et statistiques. */
+body.inventory-mode .header { display: grid; grid-template-columns: minmax(0,1fr) 42px; gap: 6px 10px; align-items: center; padding: 9px 16px 10px; border: 1px solid #d4e0e2; border-radius: 0 0 14px 14px; }
+.header-title { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; font-size: 23px; line-height: 1.1; white-space: normal; }
+.header-title time { font-size: 13px; line-height: 1.3; }
+#adminButton { grid-column: 2; grid-row: 1; justify-self: end; }
+.header-summary { grid-column: 1/-1; width: 100%; margin: 4px 0 0; border: 0; border-top: 1px solid #e3e9eb; border-radius: 0; }
+.header-summary .summary-bottom { display: flex; flex-direction: column; gap: 10px; padding: 11px 0 1px; align-items: stretch; }
+.header-summary .summary-actions { order: 1; display: grid; grid-template-columns: 1fr 1fr; width: 100%; gap: 8px; margin: 0; }
+.header-summary .summary-actions .btn { min-height: 43px; padding: 5px 8px; font-size: 12px; white-space: normal; line-height: 1.2; }
+.header-summary .compact-day { order: 2; width: 100%; display: grid!important; grid-template-columns: 1fr 1fr; gap: 8px!important; justify-items: center; padding: 8px 6px; background: #f2f7f8; border-radius: 9px; }
+.header-summary .compact-day>span { font-size: 13px; }
+.header-summary .compact-day strong { font-size: 16px; }
+body:not(.inventory-mode) .header-summary { display: none; }
+@media(max-width:430px) {
+  body.inventory-mode .header { padding: 9px 10px; }
+  .header-title { font-size: 21px; }
+  .header-summary .summary-actions .btn { font-size: 11px; }
+}
 </style>
 </head>
 <body class="inventory-mode">
 <header class="header no-print">
-  <div class="header-title">Inventaire du <time id="headerDate"></time></div>
+  <div class="header-title">Inventaire <time id="headerDate"></time></div>
   <button class="icon-btn" id="adminButton" aria-label="Administration" title="Administration">⚙</button>
+  <div class="summary compact-summary header-summary">
+    <div class="summary-bottom">
+      <div class="summary-actions">
+        <button class="btn" id="finishInventoryButton">✓ Valider le comptage</button>
+        <button class="btn primary" id="closeDayButton">✓ TERMINER LA JOURNÉE</button>
+      </div>
+      <div class="summary-state compact-day">
+        <span>Pellet <strong id="pelletSummary">0 palette</strong></span>
+        <span>Gaz <strong id="gasSummary">0 pcs</strong></span>
+      </div>
+    </div>
+  </div>
 </header>
 <main>
   <section id="inventoryPanel" class="panel active">
     <div id="categoryMenu" class="category-chips no-print"></div>
-    <div class="summary compact-summary">
-      <div class="summary-bottom">
-        <div class="summary-state compact-day">
-          <span>Pellet <strong id="pelletSummary">0 palette</strong></span>
-          <span>Gaz <strong id="gasSummary">0 pcs</strong></span>
-        </div>
-        <div class="summary-actions">
-          <button class="btn" id="finishInventoryButton">✓ Valider le comptage</button>
-          <button class="btn primary" id="closeDayButton">✓ TERMINER LA JOURNÉE</button>
-        </div>
-      </div>
-    </div>
     <div id="inventoryContent"></div>
   </section>
   <section id="adminPanel" class="panel">
