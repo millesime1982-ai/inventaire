@@ -351,10 +351,12 @@ body.numpad-open .toast { bottom: calc(var(--numpad-h,0px) + 14px); }
 .remove-submit{background:#b42318;color:white;border-color:#b42318}
 .add-submit{background:#18794e;color:white;border-color:#18794e}
 .movement-column .movement-list{max-height:180px}
-.movement-column .movement-item{grid-template-columns:minmax(0,1fr) auto auto;gap:4px;font-size:12px;padding:6px 0}
+.movement-column .movement-item{grid-template-columns:minmax(0,1fr) auto;gap:4px;font-size:12px;padding:6px 0}
 .movement-column .movement-item span{grid-column:auto;min-width:0;font-weight:800;white-space:nowrap}
 .movement-column .movement-item .btn{width:auto;min-width:0;min-height:28px;height:28px;font-size:11px;padding:2px 6px;border-radius:6px;white-space:nowrap}
 @media(max-width:460px){.movement-columns{gap:6px}.movement-column{padding:7px 5px}.movement-column h3{font-size:14px}.movement-column .movement-item{gap:2px;font-size:10px}.movement-column .movement-item .btn{font-size:9px;padding:2px 3px}}
+
+#movementOverlay #movementTitle { text-align: center; }
 
 /* Alignement uniforme des trois colonnes, sans modifier les calculs. */
 .sheet-head, .sheet-row { grid-template-columns: minmax(0,1fr) 192px 160px; }
@@ -424,6 +426,12 @@ body:not(.inventory-mode) .header-summary { display: none; }
 .before-cell .before-chip { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; padding: 0; gap: 0; }
 .before-cell .before-base, .before-cell .before-calc { text-align: center; margin: 0 auto; }
 .before-cell:focus-visible { outline: 2px solid #146b70; outline-offset: -3px; }
+/* Pavé des mouvements : sous les deux colonnes, dans la fenêtre. */
+#movementOverlay #numpad { position: static; display: none; width: 100%; padding: 9px 0 0; margin-top: 10px; border-top: 1px solid #d8dee2; background: transparent; box-shadow: none; }
+#movementOverlay #numpad.open { display: block; }
+#movementOverlay .numpad-inner { max-width: 100%; }
+#movementOverlay .numpad-grid button { height: 43px; }
+#movementOverlay .numpad-grid .clear, #movementOverlay .numpad-grid .backspace { height: auto; }
 </style>
 </head>
 <body class="inventory-mode">
@@ -528,20 +536,16 @@ body:not(.inventory-mode) .header-summary { display: none; }
 <div class="overlay" id="movementOverlay" aria-hidden="true">
   <div class="dialog movement-dialog">
     <h2 id="movementTitle">Mouvement</h2>
-    <p id="movementStockInfo"></p>
+    <p id="movementStockInfo" style="display:none" aria-hidden="true"></p>
     <div class="movement-columns">
       <section class="movement-column withdrawal-column">
-        <h3>− Retraits</h3>
-        <label>Quantité à retirer<input id="movementRemoveQty" data-numpad="dialog" inputmode="none" autocomplete="off"></label>
+        <label><input aria-label="Quantité à retirer" id="movementRemoveQty" data-numpad="dialog" inputmode="none" autocomplete="off"></label>
         <button class="btn movement-submit remove-submit" id="movementRemoveSave">Valider le retrait</button>
-        <div class="movement-history-title">Historique des retraits</div>
         <div class="movement-list" id="movementRemoveHistory"></div>
       </section>
       <section class="movement-column delivery-column">
-        <h3>+ Livraisons</h3>
-        <label>Quantité à ajouter<input id="movementAddQty" data-numpad="dialog" inputmode="none" autocomplete="off"></label>
+        <label><input aria-label="Quantité à ajouter" id="movementAddQty" data-numpad="dialog" inputmode="none" autocomplete="off"></label>
         <button class="btn movement-submit add-submit" id="movementAddSave">Valider la livraison</button>
-        <div class="movement-history-title">Historique des livraisons</div>
         <div class="movement-list" id="movementAddHistory"></div>
       </section>
     </div>
@@ -1297,13 +1301,16 @@ function openMovement(id) {
   $('#movementAddQty').value = '';
   renderMovementDialog();
   openOverlay($('#movementOverlay'));
+  // Le pavé est visible immédiatement, sans toucher à un champ.
+  // Retrait sélectionné par défaut ; toucher Livraison change la destination.
+  openNumpad($('#movementRemoveQty'));
 }
 
 const timeLabel = ts => new Date(ts || Date.now()).toLocaleTimeString('fr-BE', {hour: '2-digit', minute: '2-digit'});
 
 function movementItemHtml(m) {
   const key = `${m.kind}|${esc(m.id)}`;
-  return `<div class="movement-item ${m.kind === 'delivery' ? 'add' : 'remove'}"><span>${m.kind === 'delivery' ? '+' : '−'}${compact(m.value)} <small>${timeLabel(m.ts)}</small></span><button class="btn small" data-edit-movement="${key}">Modifier</button><button class="btn small" data-delete-movement="${key}">Supprimer</button></div>`
+  return `<div class="movement-item ${m.kind === 'delivery' ? 'add' : 'remove'}"><span>${m.kind === 'delivery' ? '+' : '−'}${compact(m.value)} <small>${timeLabel(m.ts)}</small></span><button class="btn small" data-delete-movement="${key}">Supprimer</button></div>`
 }
 
 function movementStockInfo(st) {
@@ -1344,6 +1351,7 @@ function saveMovement(kind) {
   renderInventory();
   renderMovementDialog();
   closeNumpad();
+  closeOverlay($('#movementOverlay'));
   toast(kind === 'delivery' ? `✓ Ajout de ${value}` : `✓ Retrait de ${value}`);
 }
 // Corriger un mouvement historique ne doit pas modifier un comptage physique déjà réalisé.
@@ -1536,7 +1544,7 @@ function numpadLabel(t) {
 }
 
 function syncNumpadHeight() {
-  document.documentElement.style.setProperty('--numpad-h', np.open && np.el ? np.el.offsetHeight + 'px' : '0px')
+  document.documentElement.style.setProperty('--numpad-h', np.open && np.el && !np.el.closest('#movementOverlay') ? np.el.offsetHeight + 'px' : '0px')
 }
 
 function numpadRender() {
@@ -1562,6 +1570,12 @@ function openNumpad(input) {
   if (!input || input.disabled || input.readOnly || !np.el) return;
   const same = np.open && np.target === input;
   np.target = input;
+  const movementDialog = input.closest('#movementOverlay .movement-dialog');
+  if (movementDialog) {
+    movementDialog.querySelector('.movement-columns').after(np.el);
+  } else if (np.el.parentElement !== document.body) {
+    document.body.appendChild(np.el);
+  }
   if (!same) {
     np.expr = String(input.value || '').replace(/[^0-9]/g, '');
     np.fresh = true
@@ -1585,6 +1599,7 @@ function closeNumpad() {
   np.el.classList.remove('open');
   np.el.setAttribute('aria-hidden', 'true');
   document.body.classList.remove('numpad-open');
+  if (np.el.parentElement !== document.body) document.body.appendChild(np.el);
   syncNumpadHeight();
 }
 
@@ -1627,6 +1642,10 @@ function numpadEnter() {
   numpadWrite();
   numpadRender();
   const mode = t.dataset.numpad;
+  if (t.id === 'movementRemoveQty' || t.id === 'movementAddQty') {
+    saveMovement(t.id === 'movementRemoveQty' ? 'withdrawal' : 'delivery');
+    return;
+  }
   if (mode === 'init') {
     const all = $$('[data-numpad="init"]'), n = all[all.indexOf(t) + 1];
     if (n) {
